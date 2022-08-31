@@ -1,4 +1,4 @@
-pragma solidity ^0.6.0;
+pragma solidity ^0.8.10;
 
 // ----------------------------------------------------------------------------
 // BokkyPooBah's Red-Black Tree Library v1.0-pre-release-a
@@ -36,6 +36,7 @@ library BokkyPooBahsRedBlackTreeLibrary {
             }
         }
     }
+
     function last(Tree storage self) internal view returns (uint _key) {
         _key = self.root;
         if (_key != EMPTY) {
@@ -44,6 +45,7 @@ library BokkyPooBahsRedBlackTreeLibrary {
             }
         }
     }
+
     function next(Tree storage self, uint target) internal view returns (uint cursor) {
         require(target != EMPTY);
         if (self.nodes[target].right != EMPTY) {
@@ -56,6 +58,7 @@ library BokkyPooBahsRedBlackTreeLibrary {
             }
         }
     }
+
     function prev(Tree storage self, uint target) internal view returns (uint cursor) {
         require(target != EMPTY);
         if (self.nodes[target].left != EMPTY) {
@@ -68,18 +71,22 @@ library BokkyPooBahsRedBlackTreeLibrary {
             }
         }
     }
+
     function exists(Tree storage self, uint key) internal view returns (bool) {
         return (key != EMPTY) && ((key == self.root) || (self.nodes[key].parent != EMPTY));
     }
+
     function isEmpty(uint key) internal pure returns (bool) {
         return key == EMPTY;
     }
+
     function getEmpty() internal pure returns (uint) {
         return EMPTY;
     }
-    function getNode(Tree storage self, uint key) internal view returns (uint _returnKey, uint _parent, uint _left, uint _right, bool _red) {
+
+    function getNode(Tree storage self, uint key) internal view returns (Node memory node) {
         require(exists(self, key));
-        return(key, self.nodes[key].parent, self.nodes[key].left, self.nodes[key].right, self.nodes[key].red);
+        return self.nodes[key];
     }
 
     function insert(Tree storage self, uint key) internal {
@@ -105,6 +112,7 @@ library BokkyPooBahsRedBlackTreeLibrary {
         }
         insertFixup(self, key);
     }
+
     function remove(Tree storage self, uint key) internal {
         require(key != EMPTY);
         require(exists(self, key));
