@@ -28,6 +28,23 @@ library BokkyPooBahsRedBlackTreeLibrary {
 
     uint private constant EMPTY = 0;
 
+    // Provide a pre-balanced tree from offchain
+    function seed (
+        Tree storage self,
+        uint256[] memory keys,
+        mapping(uint256 => Node) storage _nodes,
+        uint256 root
+    ) internal {
+        if (root != 0) {
+            self.root = root;
+        }
+
+        for (uint256 idx = 0; idx < keys.length; idx++) {
+            uint256 key = keys[idx];
+            self.nodes[key] = _nodes[key];
+        }
+    }
+
     function first(Tree storage self) internal view returns (uint _key) {
         _key = self.root;
         if (_key != EMPTY) {
